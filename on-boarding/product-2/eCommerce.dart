@@ -1,5 +1,5 @@
 import 'dart:io';
-import '../Product.dart';
+import 'Product.dart';
 
 class ProductManager {
   List<Product> products = [];
