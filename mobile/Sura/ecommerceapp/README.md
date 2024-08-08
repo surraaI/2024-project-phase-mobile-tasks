@@ -16,7 +16,7 @@ For help getting started with Flutter development, view the
 samples, guidance on mobile development, and a full API reference.
 
 
-![alt text](<assets/screenshots/Screenshot 2024-08-08 173707.png>)
+![alt text](assets/screenshots/image.png)
 ![alt text](<assets/screenshots/Screenshot 2024-08-08 174726.png>)
 ![alt text](<assets/screenshots/Screenshot 2024-08-08 175222.png>)
 ![alt text](<assets/screenshots/Screenshot 2024-08-08 174629.png>)

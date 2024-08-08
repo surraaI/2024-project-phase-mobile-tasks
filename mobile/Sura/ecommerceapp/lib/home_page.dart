@@ -1,16 +1,14 @@
-import 'package:ecommerceapp/details.dart'; // Importing the DetailsPage for product details.
+import 'package:ecommerceapp/details.dart'; 
 import 'package:ecommerceapp/search_page.dart';
-import 'package:ecommerceapp/update_page.dart'; // Importing the UpdatePage for updating or adding products.
-import 'package:flutter/material.dart'; // Importing the Flutter material package for UI elements.
-import 'package:intl/intl.dart'; // Importing the intl package for date formatting.
+import 'package:ecommerceapp/update_page.dart'; 
+import 'package:flutter/material.dart'; 
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final String formattedDate =
-        DateFormat('yyyy, MM, dd').format(DateTime(2023, 4, 14));
+    
 
     return Scaffold(
       appBar: AppBar(
@@ -24,11 +22,17 @@ class HomePage extends StatelessWidget {
               color: Colors.grey,
             ),
             const SizedBox(width: 10),
-            Column(
+            const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(formattedDate, style: const TextStyle(fontSize: 16)),
-                const Text("Hello, Yohannes", style: TextStyle(fontSize: 16)),
+                Text('2023, August 14', style: TextStyle(fontSize: 16)),
+                Row(
+                  children: [
+                    Text("Hello, ", style: TextStyle(fontSize: 16)),
+                    Text('Yohannes', style: TextStyle(fontWeight: FontWeight.bold)
+                    )
+                  ],
+                ),
               ],
             ),
           ],
