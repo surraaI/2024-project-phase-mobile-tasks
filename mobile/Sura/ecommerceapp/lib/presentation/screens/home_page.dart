@@ -1,15 +1,43 @@
-import 'package:ecommerceapp/details.dart'; 
-import 'package:ecommerceapp/search_page.dart';
-import 'package:ecommerceapp/update_page.dart'; 
-import 'package:flutter/material.dart'; 
+import 'package:ecommerceapp/presentation/screens/custom_page_route.dart';
+import 'package:ecommerceapp/presentation/screens/details.dart';
+import 'package:ecommerceapp/model/product_model.dart';
+import 'package:ecommerceapp/presentation/screens/search_page.dart';
+import 'package:ecommerceapp/presentation/screens/update_page.dart';
+import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    
+  _HomePageState createState() => _HomePageState();
+}
 
+class _HomePageState extends State<HomePage> {
+  List<Product> products = [
+    Product(
+      name: 'Derby Leathers',
+      price: 120.0,
+      description:
+          'A derby leather shoe is a classic and versatile footwear option characterized by its open lacing system...',
+      category: 'Mens shoe',
+      image_path: 'assets/Rectangle27.jpg',
+    ),
+  ];
+
+  void _addProduct(Product product) {
+    setState(() {
+      products.add(product);
+    });
+  }
+
+  void _deleteProduct(Product product) {
+    setState(() {
+      products.remove(product);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -29,8 +57,8 @@ class HomePage extends StatelessWidget {
                 Row(
                   children: [
                     Text("Hello, ", style: TextStyle(fontSize: 16)),
-                    Text('Yohannes', style: TextStyle(fontWeight: FontWeight.bold)
-                    )
+                    Text('Yohannes',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
                 ),
               ],
@@ -65,7 +93,13 @@ class HomePage extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => SearchPage()));
+                      CustomPageRoute(
+                        child: SearchPage(
+                          products: products,
+                          onDelete: _deleteProduct,
+                        ),
+                      ),
+                    );
                   },
                   child: const Card(
                     margin: EdgeInsets.all(10),
@@ -75,19 +109,25 @@ class HomePage extends StatelessWidget {
                       child: Icon(Icons.search_outlined),
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
-          const ProductList(count: 7),
+          ProductList(products: products, onDelete: _deleteProduct),
         ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
-        shape: CircleBorder(),
-        onPressed: () => {
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (context) => UpdatePage()))
+        shape: const CircleBorder(),
+        onPressed: () {
+          Navigator.of(context).push(
+            CustomPageRoute(
+              child: UpdatePage(
+                addProduct: _addProduct,
+                deleteProduct: _deleteProduct,
+              ),
+            ),
+          );
         },
         child: const Icon(
           Icons.add,
@@ -99,11 +139,14 @@ class HomePage extends StatelessWidget {
   }
 }
 
+
 class ProductList extends StatelessWidget {
-  final int count;
+  final List<Product> products;
+  final Function(Product) onDelete;
 
   const ProductList({
-    required this.count,
+    required this.products,
+    required this.onDelete,
     super.key,
   });
 
@@ -111,9 +154,12 @@ class ProductList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
-        itemCount: count,
+        itemCount: products.length,
         itemBuilder: (context, index) {
-          return const ProductCard();
+          return ProductCard(
+            product: products[index],
+            onDelete: onDelete,
+          );
         },
       ),
     );
@@ -121,14 +167,27 @@ class ProductList extends StatelessWidget {
 }
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key});
+  final Product product;
+  final Function(Product) onDelete;
+
+  const ProductCard({
+    required this.product,
+    required this.onDelete,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => const DetailsPage()));
+        Navigator.of(context).push(
+          CustomPageRoute(
+            child: DetailsPage(
+              product: product,
+              onDelete: onDelete,
+            ),
+          ),
+        );
       },
       child: Card(
         margin: const EdgeInsets.all(10),
@@ -140,42 +199,49 @@ class ProductCard extends StatelessWidget {
                 topLeft: Radius.circular(4),
                 topRight: Radius.circular(4),
               ),
-              child: Image.asset(
-                'assets/Rectangle27.jpg',
-                height: 200,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
+              child: product.image_path != null
+                  ? Image.asset(
+                      product.image_path!,
+                      height: 200,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    )
+                  : Image.asset(
+                      'assets/shoe2.jpg',
+                      height: 200,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
             ),
             const SizedBox(height: 12.0),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Derby Leathers",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    product.name,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "\$120",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    "\$${product.price.toString()}",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   )
                 ],
               ),
             ),
             const SizedBox(height: 12.0),
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Mens shoe",
-                    style: TextStyle(fontWeight: FontWeight.normal),
+                    product.category,
+                    style: const TextStyle(fontWeight: FontWeight.normal),
                   ),
                   Row(
-                    children: [
+                    children: const [
                       Icon(
                         Icons.star,
                         color: Color.fromARGB(255, 229, 255, 0),
@@ -188,12 +254,10 @@ class ProductCard extends StatelessWidget {
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-

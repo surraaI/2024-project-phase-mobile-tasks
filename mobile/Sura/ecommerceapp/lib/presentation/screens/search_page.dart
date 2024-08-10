@@ -1,8 +1,16 @@
-import 'package:ecommerceapp/home_page.dart'; 
+import 'package:ecommerceapp/presentation/screens/home_page.dart';
+import 'package:ecommerceapp/model/product_model.dart'; 
 import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({super.key});
+  final List<Product> products;
+  final Function(Product) onDelete;
+
+  const SearchPage({
+    Key? key, 
+    required this.products,
+    required this.onDelete,
+  }) : super(key: key);
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -12,9 +20,17 @@ class _SearchPageState extends State<SearchPage> {
   String _searchQuery = '';
   double _minPrice = 0;
   double _maxPrice = 1000;
+  String _category = '';
 
   @override
   Widget build(BuildContext context) {
+    List<Product> filteredProducts = widget.products.where((product) {
+      final isWithinPriceRange = product.price >= _minPrice && product.price <= _maxPrice;
+      final matchesCategory = _category.isEmpty || product.category.toLowerCase().contains(_category.toLowerCase());
+      final matchesSearchQuery = product.name.toLowerCase().contains(_searchQuery.toLowerCase()) || product.description.toLowerCase().contains(_searchQuery.toLowerCase());
+      return isWithinPriceRange && matchesCategory && matchesSearchQuery;
+    }).toList();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -34,8 +50,8 @@ class _SearchPageState extends State<SearchPage> {
                 Expanded(
                   child: TextField(
                     decoration: InputDecoration(
-                      hintText: 'Leather',
-                      suffixIcon: const Icon(Icons.arrow_forward),
+                      hintText: 'Search...',
+                      suffixIcon: const Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -51,13 +67,12 @@ class _SearchPageState extends State<SearchPage> {
                 Container(
                   decoration: BoxDecoration(
                     color: Colors.blue,
-                    borderRadius: BorderRadius.circular(5)
+                    borderRadius: BorderRadius.circular(5),
                   ),
                   child: IconButton(
                     icon: const Icon(
                       Icons.filter_list,
                       color: Colors.white,
-                      
                     ),
                     onPressed: () {
                       showModalBottomSheet(
@@ -75,6 +90,11 @@ class _SearchPageState extends State<SearchPage> {
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                   ),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _category = value;
+                                    });
+                                  },
                                 ),
                                 const SizedBox(height: 16),
                                 Row(
@@ -131,9 +151,12 @@ class _SearchPageState extends State<SearchPage> {
             const SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
-                itemCount: 2,
+                itemCount: filteredProducts.length,
                 itemBuilder: (context, index) {
-                  return const ProductCard();
+                  return ProductCard(
+                    product: filteredProducts[index],
+                    onDelete: widget.onDelete,
+                  );
                 },
               ),
             ),

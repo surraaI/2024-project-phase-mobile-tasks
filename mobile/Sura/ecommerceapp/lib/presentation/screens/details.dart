@@ -1,8 +1,12 @@
-import 'package:ecommerceapp/update_page.dart';
+import 'package:ecommerceapp/model/product_model.dart';
+import 'package:ecommerceapp/presentation/screens/update_page.dart';
 import 'package:flutter/material.dart';
 
 class DetailsPage extends StatefulWidget {
-  const DetailsPage({super.key});
+  const DetailsPage({super.key, required this.product,  required this.onDelete});
+  
+  final Product product;
+  final Function(Product) onDelete;
 
   @override
   _DetailsPageState createState() => _DetailsPageState();
@@ -10,6 +14,10 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage> {
   int? _selectedSize;
+
+  void _addProduct(Product product) {
+    print("Product updated: ${product.name}");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +31,7 @@ class _DetailsPageState extends State<DetailsPage> {
               Stack(
                 children: [
                   Image.asset(
-                    'assets/Rectangle27.jpg',
+                    widget.product.image_path ?? 'assets/shoe2.jpg',
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -41,24 +49,24 @@ class _DetailsPageState extends State<DetailsPage> {
                 ],
               ),
               const SizedBox(height: 12.0),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Mens shoe",
-                      style: TextStyle(fontWeight: FontWeight.normal),
+                      widget.product.name,
+                      style: const TextStyle(fontWeight: FontWeight.normal),
                     ),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.star,
                           color: Color.fromARGB(255, 229, 255, 0),
                         ),
                         Text(
-                          "4.0",
-                          style: TextStyle(fontWeight: FontWeight.normal),
+                          widget.product.rating.toString(),
+                          style: const TextStyle(fontWeight: FontWeight.normal),
                         )
                       ],
                     ),
@@ -68,21 +76,21 @@ class _DetailsPageState extends State<DetailsPage> {
               const SizedBox(height: 12.0),
               SizedBox(
                 height: 50,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: const [
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
-                        "Derby Leathers",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        widget.product.category,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
-                        "\$120",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        "\$${widget.product.price}",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
@@ -108,7 +116,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       },
                       child: Card(
                         color: isSelected ? Colors.blue : Colors.white,
-                        shape: BeveledRectangleBorder(),
+                        shape: const BeveledRectangleBorder(),
                         child: Center(
                           child: Padding(
                             padding: const EdgeInsets.all(15.0),
@@ -127,10 +135,10 @@ class _DetailsPageState extends State<DetailsPage> {
                 }).toList(),
               ),
               const SizedBox(height: 12.0),
-              const Padding(
-                padding: EdgeInsets.all(8.0),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  'A derby leather shoe is a classic and versatile footwear option characterized by its open lacing system, where the shoelace eyelets are sewn on top of the vamp (the upper part of the shoe). This design feature provides a more relaxed and casual look compared to the closed lacing system of oxford shoes. Derby shoes are typically made of high-quality leather, known for its durability and elegance, making them suitable for both formal and casual occasions. With their timeless style and comfortable fit, derby leather shoes are a staple in any well-rounded wardrobe.',
+                  widget.product.description,
                   textAlign: TextAlign.justify,
                 ),
               ),
@@ -146,7 +154,10 @@ class _DetailsPageState extends State<DetailsPage> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          widget.onDelete(widget.product);
+                          Navigator.pop(context); 
+                        },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.red,
                           backgroundColor: Colors.white,
@@ -160,10 +171,17 @@ class _DetailsPageState extends State<DetailsPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => UpdatePage()));
-                     
-                         },
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => UpdatePage(
+                              existingProduct: widget.product,
+                              addProduct: _addProduct, 
+                              
+                              
+                            ),
+                          ),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
                         backgroundColor: const Color.fromARGB(255, 4, 110, 196),
