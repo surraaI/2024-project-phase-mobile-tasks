@@ -24,8 +24,8 @@ To run this application locally, follow these steps:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/ecommerceapp.git
-   cd ecommerceapp
+   git clone https://github.com/surraaI/2024-project-phase-mobile-tasks
+   cd 2024-project-phase-mobile-tasks/mobile/Sura/ecommerceapp
    flutter pub get
    flutter run
 
