@@ -1,9 +1,12 @@
-import 'package:ecommerceapp/presentation/screens/custom_page_route.dart';
-import 'package:ecommerceapp/presentation/screens/details.dart';
-import 'package:ecommerceapp/model/product_model.dart';
-import 'package:ecommerceapp/presentation/screens/search_page.dart';
-import 'package:ecommerceapp/presentation/screens/update_page.dart';
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
+
+import '../../model/product_model.dart';
+import 'custom_page_route.dart';
+import 'details.dart';
+import 'search_page.dart';
+import 'update_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -56,7 +59,7 @@ class _HomePageState extends State<HomePage> {
                 Text('2023, August 14', style: TextStyle(fontSize: 16)),
                 Row(
                   children: [
-                    Text("Hello, ", style: TextStyle(fontSize: 16)),
+                    Text('Hello, ', style: TextStyle(fontSize: 16)),
                     Text('Yohannes',
                         style: TextStyle(fontWeight: FontWeight.bold)),
                   ],
@@ -87,7 +90,7 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  "Available Products",
+                  'Available Products',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 GestureDetector(
@@ -224,7 +227,7 @@ class ProductCard extends StatelessWidget {
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    "\$${product.price.toString()}",
+                    '\$${product.price.toString()}',
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   )
                 ],
@@ -240,14 +243,14 @@ class ProductCard extends StatelessWidget {
                     product.category,
                     style: const TextStyle(fontWeight: FontWeight.normal),
                   ),
-                  Row(
-                    children: const [
+                  const Row(
+                    children: [
                       Icon(
                         Icons.star,
                         color: Color.fromARGB(255, 229, 255, 0),
                       ),
                       Text(
-                        "4.0",
+                        '4.0',
                         style: TextStyle(fontWeight: FontWeight.normal),
                       )
                     ],

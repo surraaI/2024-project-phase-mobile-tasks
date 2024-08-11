@@ -1,6 +1,10 @@
-import 'package:ecommerceapp/model/product_model.dart';
-import 'package:ecommerceapp/presentation/screens/update_page.dart';
+// ignore_for_file: library_private_types_in_public_api
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+
+import '../../model/product_model.dart';
+import 'update_page.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({super.key, required this.product,  required this.onDelete});
@@ -16,7 +20,9 @@ class _DetailsPageState extends State<DetailsPage> {
   int? _selectedSize;
 
   void _addProduct(Product product) {
-    print("Product updated: ${product.name}");
+    if (kDebugMode) {
+      print('Product updated: ${product.name}');
+    }
   }
 
   @override
@@ -89,7 +95,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
-                        "\$${widget.product.price}",
+                        '\$${widget.product.price}',
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),

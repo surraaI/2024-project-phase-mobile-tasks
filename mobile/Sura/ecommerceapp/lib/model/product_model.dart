@@ -1,4 +1,5 @@
-import 'dart:io';
+
+// ignore_for_file: non_constant_identifier_names
 
 class Product {
   String name;

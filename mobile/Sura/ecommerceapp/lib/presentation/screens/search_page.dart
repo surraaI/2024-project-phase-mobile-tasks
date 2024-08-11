@@ -1,16 +1,19 @@
-import 'package:ecommerceapp/presentation/screens/home_page.dart';
-import 'package:ecommerceapp/model/product_model.dart'; 
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
+
+import '../../model/product_model.dart';
+import 'home_page.dart';
 
 class SearchPage extends StatefulWidget {
   final List<Product> products;
   final Function(Product) onDelete;
 
   const SearchPage({
-    Key? key, 
+    super.key, 
     required this.products,
     required this.onDelete,
-  }) : super(key: key);
+  });
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -39,7 +42,7 @@ class _SearchPageState extends State<SearchPage> {
             Navigator.pop(context);
           },
         ),
-        title: const Text("Search Product"),
+        title: const Text('Search Product'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -99,7 +102,7 @@ class _SearchPageState extends State<SearchPage> {
                                 const SizedBox(height: 16),
                                 Row(
                                   children: [
-                                    const Text("Price:"),
+                                    const Text('Price:'),
                                     const SizedBox(width: 10),
                                     Expanded(
                                       child: RangeSlider(

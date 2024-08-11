@@ -1,9 +1,10 @@
-import 'package:ecommerceapp/presentation/screens/details.dart';
-import 'package:ecommerceapp/presentation/screens/home_page.dart';
-import 'package:ecommerceapp/presentation/screens/update_page.dart';
-import 'package:ecommerceapp/presentation/screens/search_page.dart';
 import 'package:flutter/material.dart';
-import 'package:ecommerceapp/model/product_model.dart';
+
+import 'model/product_model.dart';
+import 'presentation/screens/details.dart';
+import 'presentation/screens/home_page.dart';
+import 'presentation/screens/search_page.dart';
+import 'presentation/screens/update_page.dart';
 
 void main() {
   runApp(const MyApp());

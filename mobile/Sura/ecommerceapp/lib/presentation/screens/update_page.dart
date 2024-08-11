@@ -1,8 +1,10 @@
-import 'package:ecommerceapp/model/product_model.dart';
-import 'package:flutter/material.dart';
-import 'dart:io'; 
-import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+
+import '../../model/product_model.dart';
 
 class UpdatePage extends StatefulWidget {
   final Function(Product)? addProduct;
@@ -17,6 +19,7 @@ class UpdatePage extends StatefulWidget {
   });
 
   @override
+  // ignore: library_private_types_in_public_api
   _UpdatePageState createState() => _UpdatePageState();
 }
 
@@ -109,7 +112,7 @@ class _UpdatePageState extends State<UpdatePage> {
             Navigator.pop(context);
           },
         ),
-        title: Text(widget.existingProduct != null ? "Edit Product" : "Add Product"),
+        title: Text(widget.existingProduct != null ? 'Edit Product' : 'Add Product'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -133,7 +136,7 @@ class _UpdatePageState extends State<UpdatePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(Icons.image),
-                            Text("Upload Image"),
+                            Text('Upload Image'),
                           ],
                         ))
                       : kIsWeb
@@ -193,11 +196,11 @@ class _UpdatePageState extends State<UpdatePage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: _onAddProduct,
-                    child: const Text('Add Product'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                       foregroundColor: Colors.white,
                     ),
+                    child: const Text('Add Product'),
                   ),
                 ),
               ),
@@ -208,11 +211,11 @@ class _UpdatePageState extends State<UpdatePage> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: _onDeleteProduct,
-                      child: const Text('Delete Product'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
                       ),
+                      child: const Text('Delete Product'),
                     ),
                   ),
                 ),
