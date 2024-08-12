@@ -3,7 +3,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/product_model.dart';
+
+import '../../data/model/product_model.dart';
 import 'update_page.dart';
 
 class DetailsPage extends StatefulWidget {

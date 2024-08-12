@@ -4,7 +4,8 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../model/product_model.dart';
+import '../../data/model/product_model.dart';
+
 
 class UpdatePage extends StatefulWidget {
   final Function(Product)? addProduct;

@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../model/product_model.dart';
+import '../../data/model/product_model.dart';
 import 'custom_page_route.dart';
 import 'details.dart';
 import 'search_page.dart';
