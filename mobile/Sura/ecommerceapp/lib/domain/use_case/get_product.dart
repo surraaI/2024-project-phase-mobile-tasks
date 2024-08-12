@@ -1,10 +1,10 @@
 import '../entity/product_entity.dart';
 import '../repository/product_repository.dart';
 
-class ViewProductUseCase {
+class GetProduct {
   final ProductRepository repository;
 
-  ViewProductUseCase({required this.repository});
+  GetProduct({required this.repository});
 
   Future<ProductEntity?> call(int productId) async {
     return await repository.getProductById(productId);
