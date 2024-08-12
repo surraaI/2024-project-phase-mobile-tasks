@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'data/model/product_model.dart';
-import 'presentation/screens/details.dart';
-import 'presentation/screens/home_page.dart';
-import 'presentation/screens/search_page.dart';
-import 'presentation/screens/update_page.dart';
+import 'features/ecommerce/data/model/product_model.dart';
+import 'features/ecommerce/domain/entity/product_entity.dart';
+import 'features/ecommerce/presentation/screens/details.dart';
+import 'features/ecommerce/presentation/screens/home_page.dart';
+import 'features/ecommerce/presentation/screens/search_page.dart';
+import 'features/ecommerce/presentation/screens/update_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomePage(),
         '/searchPage': (context) => SearchPage(
-              products: ModalRoute.of(context)?.settings.arguments as List<Product>,
+              products: ModalRoute.of(context)?.settings.arguments as List<ProductEntity>,
               onDelete: (context as Map)['onDelete'],
             ),
       },

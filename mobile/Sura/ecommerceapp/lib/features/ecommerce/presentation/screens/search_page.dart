@@ -2,11 +2,12 @@
 
 import 'package:flutter/material.dart';
 import '../../data/model/product_model.dart';
+import '../../domain/entity/product_entity.dart';
 import 'home_page.dart';
 
 class SearchPage extends StatefulWidget {
-  final List<Product> products;
-  final Function(Product) onDelete;
+  final List<ProductEntity> products;
+  final Function(ProductEntity) onDelete;
 
   const SearchPage({
     super.key, 
@@ -26,7 +27,7 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Product> filteredProducts = widget.products.where((product) {
+    List<ProductEntity> filteredProducts = widget.products.where((product) {
       final isWithinPriceRange = product.price >= _minPrice && product.price <= _maxPrice;
       final matchesCategory = _category.isEmpty || product.category.toLowerCase().contains(_category.toLowerCase());
       final matchesSearchQuery = product.name.toLowerCase().contains(_searchQuery.toLowerCase()) || product.description.toLowerCase().contains(_searchQuery.toLowerCase());

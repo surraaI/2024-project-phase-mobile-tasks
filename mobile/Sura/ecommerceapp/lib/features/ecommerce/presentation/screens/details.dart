@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 
 
 import '../../data/model/product_model.dart';
+import '../../domain/entity/product_entity.dart';
 import 'update_page.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({super.key, required this.product,  required this.onDelete});
   
-  final Product product;
-  final Function(Product) onDelete;
+  final ProductEntity product;
+  final Function(ProductEntity) onDelete;
 
   @override
   _DetailsPageState createState() => _DetailsPageState();
@@ -20,7 +21,7 @@ class DetailsPage extends StatefulWidget {
 class _DetailsPageState extends State<DetailsPage> {
   int? _selectedSize;
 
-  void _addProduct(Product product) {
+  void _addProduct(ProductEntity product) {
     if (kDebugMode) {
       print('Product updated: ${product.name}');
     }
@@ -38,7 +39,7 @@ class _DetailsPageState extends State<DetailsPage> {
               Stack(
                 children: [
                   Image.asset(
-                    widget.product.image_path ?? 'assets/shoe2.jpg',
+                    widget.product.imageUrl ?? 'assets/shoe2.jpg',
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -65,15 +66,15 @@ class _DetailsPageState extends State<DetailsPage> {
                       widget.product.name,
                       style: const TextStyle(fontWeight: FontWeight.normal),
                     ),
-                    Row(
+                    const Row(
                       children: [
-                        const Icon(
+                        Icon(
                           Icons.star,
                           color: Color.fromARGB(255, 229, 255, 0),
                         ),
                         Text(
-                          widget.product.rating.toString(),
-                          style: const TextStyle(fontWeight: FontWeight.normal),
+                          '4.0',
+                          style: TextStyle(fontWeight: FontWeight.normal),
                         )
                       ],
                     ),

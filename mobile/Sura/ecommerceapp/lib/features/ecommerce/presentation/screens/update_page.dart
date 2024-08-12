@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../data/model/product_model.dart';
+import '../../domain/entity/product_entity.dart';
 
 
 class UpdatePage extends StatefulWidget {
-  final Function(Product)? addProduct;
-  final Function(Product)? deleteProduct; 
-  final Product? existingProduct;  
+  final Function(ProductEntity)? addProduct;
+  final Function(ProductEntity)? deleteProduct; 
+  final ProductEntity? existingProduct;  
 
   const UpdatePage({
     this.addProduct, 
@@ -41,7 +42,7 @@ class _UpdatePageState extends State<UpdatePage> {
       _categoryController.text = widget.existingProduct!.category;
       _priceController.text = widget.existingProduct!.price.toString();
       _descriptionController.text = widget.existingProduct!.description;
-      imagePath = widget.existingProduct!.image_path;
+      imagePath = widget.existingProduct!.imageUrl;
     }
   }
 
@@ -77,17 +78,17 @@ class _UpdatePageState extends State<UpdatePage> {
     widget.existingProduct!.category = category;
     widget.existingProduct!.price = price;
     widget.existingProduct!.description = description;
-    widget.existingProduct!.image_path = imagePath;
+    widget.existingProduct!.imageUrl = imagePath!;
 
     Navigator.pop(context);
   } else {
     // Create a new product
-    final Product newProduct = Product(
-      image_path: imagePath,
+    final ProductEntity newProduct = ProductEntity(
+      imageUrl: imagePath!,
       name: name,
       price: price,
       description: description,
-      category: category,
+      category: category, id: 1,
     );
 
     widget.addProduct!(newProduct);

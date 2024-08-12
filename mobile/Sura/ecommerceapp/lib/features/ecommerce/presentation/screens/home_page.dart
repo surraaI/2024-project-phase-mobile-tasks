@@ -1,8 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
-
 import '../../data/model/product_model.dart';
+import '../../domain/entity/product_entity.dart';
 import 'custom_page_route.dart';
 import 'details.dart';
 import 'search_page.dart';
@@ -16,24 +15,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Product> products = [
-    Product(
+  List<ProductEntity> products = [
+    ProductEntity(
       name: 'Derby Leathers',
       price: 120.0,
       description:
           'A derby leather shoe is a classic and versatile footwear option characterized by its open lacing system...',
       category: 'Mens shoe',
-      image_path: 'assets/Rectangle27.jpg',
+      imageUrl: 'assets/Rectangle27.jpg', id: 1,
     ),
   ];
 
-  void _addProduct(Product product) {
+  void _addProduct(ProductEntity product) {
     setState(() {
       products.add(product);
     });
   }
 
-  void _deleteProduct(Product product) {
+  void _deleteProduct(ProductEntity
+   product) {
     setState(() {
       products.remove(product);
     });
@@ -144,8 +144,8 @@ class _HomePageState extends State<HomePage> {
 
 
 class ProductList extends StatelessWidget {
-  final List<Product> products;
-  final Function(Product) onDelete;
+  final List<ProductEntity> products;
+  final Function(ProductEntity) onDelete;
 
   const ProductList({
     required this.products,
@@ -170,8 +170,8 @@ class ProductList extends StatelessWidget {
 }
 
 class ProductCard extends StatelessWidget {
-  final Product product;
-  final Function(Product) onDelete;
+  final ProductEntity product;
+  final Function(ProductEntity) onDelete;
 
   const ProductCard({
     required this.product,
@@ -202,9 +202,9 @@ class ProductCard extends StatelessWidget {
                 topLeft: Radius.circular(4),
                 topRight: Radius.circular(4),
               ),
-              child: product.image_path != null
+              child: product.imageUrl != null
                   ? Image.asset(
-                      product.image_path!,
+                      product.imageUrl!,
                       height: 200,
                       width: double.infinity,
                       fit: BoxFit.cover,
