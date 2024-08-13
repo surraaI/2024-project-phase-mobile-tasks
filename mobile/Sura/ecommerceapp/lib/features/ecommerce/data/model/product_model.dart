@@ -1,5 +1,4 @@
 import '../../domain/entity/product_entity.dart';
-
 class ProductModel extends ProductEntity {
   final int id;
   final String name;

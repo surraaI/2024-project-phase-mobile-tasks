@@ -1,57 +1,50 @@
+import '../../../../core/platform/network_info.dart';
 import '../../domain/entity/product_entity.dart';
 import '../../domain/repository/product_repository.dart';
+import '../data_sources/product_local_data_source.dart';
+import '../data_sources/product_remote_data_source.dart';
+import '../model/product_model.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
-  final List<ProductEntity> _products = [
-    ProductEntity(
-      id: 1,
-      name: 'Derby Leathers',
-      price: 120.0,
-      description: 'A derby leather shoe is a classic and versatile footwear option...',
-      category: 'Mens shoe',
-      imageUrl: 'assets/Rectangle27.jpg',
-    ),
-    ProductEntity(
-      id: 2,
-      name: 'Classic Sneakers',
-      price: 80.0,
-      description: 'Comfortable and stylish, these classic sneakers are perfect for everyday wear.',
-      category: 'Mens shoe',
-      imageUrl: 'assets/shoe1.jpg',
-    ),
-  ];
+  final ProductLocalDataSource localDataSource;
+  final ProductRemoteDataSource remoteDataSource;
+  final NetworkInfo networkInfo;
 
-  @override
-  Future<List<ProductEntity>> getAllProducts() async {
-    return _products;
-  }
 
+  ProductRepositoryImpl({
+    required this.localDataSource,
+    required this.remoteDataSource,
+    required this.networkInfo,}
+  );
   @override
-  Future<ProductEntity?> getProductById(int id) async {
-    try {
-      return _products.firstWhere((product) => product.id == id);
-    } catch (e) {
-      return null;
-    }
+  Future<void> createProduct(ProductEntity product) {
+    // TODO: implement createProduct
+    throw UnimplementedError();
   }
-
+  
   @override
-  Future<void> createProduct(ProductEntity product) async {
-    _products.add(product);
+  Future<void> deleteProduct(int id) {
+    // TODO: implement deleteProduct
+    throw UnimplementedError();
   }
-
+  
   @override
-  Future<void> updateProduct(ProductEntity product) async {
-    final index = _products.indexWhere((p) => p.id == product.id);
-    if (index != -1) {
-      _products[index] = product;
-    } else {
-      throw Exception('Product not found');
-    }
+  Future<List<ProductModel>> getAllProducts() {
+    networkInfo.isConnected;
+    // TODO: implement getAllProducts
+    throw UnimplementedError();
   }
-
+  
   @override
-  Future<void> deleteProduct(int id) async {
-    _products.removeWhere((product) => product.id == id);
+  Future<ProductModel?> getProductById(int id) {
+    // TODO: implement getProductById
+    throw UnimplementedError();
   }
+  
+  @override
+  Future<void> updateProduct(ProductEntity product) {
+    // TODO: implement updateProduct
+    throw UnimplementedError();
+  }
+  
 }
