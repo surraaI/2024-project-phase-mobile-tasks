@@ -3,7 +3,13 @@ import 'package:ecommerceapp/features/ecommerce/data/data_sources/product_local_
 import 'package:ecommerceapp/features/ecommerce/data/data_sources/product_remote_data_source.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:mockito/annotations.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-@GenerateMocks([ProductLocalDataSource, ProductRemoteDataSource, NetworkInfo, InternetConnectionChecker])
-
+@GenerateMocks([
+  ProductLocalDataSource,
+  ProductRemoteDataSource,
+  NetworkInfo,
+  InternetConnectionChecker,
+  SharedPreferences,
+])
 void main() {}

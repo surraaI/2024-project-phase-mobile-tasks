@@ -3,6 +3,5 @@
     "name": "test",
     "description": "bla bla",
     "price": 123.0,
-    "category": "shoes",
     "imageUrl": "assets/blabla.jpg"
 }
