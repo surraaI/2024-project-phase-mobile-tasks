@@ -21,8 +21,8 @@ class _HomePageState extends State<HomePage> {
       price: 120.0,
       description:
           'A derby leather shoe is a classic and versatile footwear option characterized by its open lacing system...',
-      category: 'Mens shoe',
-      imageUrl: 'assets/Rectangle27.jpg', id: 1,
+      imageUrl: 'assets/Rectangle27.jpg',
+      id: '1',
     ),
   ];
 
@@ -32,8 +32,7 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void _deleteProduct(ProductEntity
-   product) {
+  void _deleteProduct(ProductEntity product) {
     setState(() {
       products.remove(product);
     });
@@ -142,7 +141,6 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-
 class ProductList extends StatelessWidget {
   final List<ProductEntity> products;
   final Function(ProductEntity) onDelete;
@@ -234,16 +232,12 @@ class ProductCard extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12.0),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    product.category,
-                    style: const TextStyle(fontWeight: FontWeight.normal),
-                  ),
-                  const Row(
+                  Row(
                     children: [
                       Icon(
                         Icons.star,

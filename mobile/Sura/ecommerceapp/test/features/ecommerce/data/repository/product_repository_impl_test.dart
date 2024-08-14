@@ -13,12 +13,11 @@ void main() {
   late MockProductRemoteDataSource mockRemoteDataSource;
   late MockNetworkInfo mockNetworkInfo;
   final tProduct = ProductModel(
-    id: 1,
+    id: '1',
     name: 'Product 1',
     description: 'Product 1 description',
     price: 100,
     imageUrl: 'https://via.placeholder.com/150',
-    category: 'shoes',
   );
   final List<ProductModel> tProductList = [tProduct];
 

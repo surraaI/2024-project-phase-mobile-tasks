@@ -8,11 +8,10 @@ import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
   final testProductModel = ProductModel(
-    id: 1,
+    id: '1',
     name: 'test',
     description: 'bla bla',
     price: 123.0,
-    category: 'shoes',
     imageUrl: 'assets/blabla.jpg',
   );
 
@@ -41,11 +40,10 @@ void main() {
       final result = testProductModel.toJson();
       // assert
       final expectedMap = {
-        'id': 1,
+        'id': '1',
         'name': 'test',
         'description': 'bla bla',
         'price': 123.0,
-        'category': 'shoes',
         'imageUrl': 'assets/blabla.jpg'
       };
 

@@ -1,10 +1,9 @@
 import '../../domain/entity/product_entity.dart';
 class ProductModel extends ProductEntity {
-  final int id;
+  final String id;
   final String name;
   final String description;
   final double price;
-  final String category;
   final String imageUrl;
 
   ProductModel({
@@ -12,13 +11,11 @@ class ProductModel extends ProductEntity {
     required this.name,
     required this.description,
     required this.price,
-    required this.category,
     required this.imageUrl,
   }) : super(
           id: id,
           name: name,
           description: description,
-          category: category,
           imageUrl: imageUrl,
           price: price,
         );
@@ -29,7 +26,6 @@ class ProductModel extends ProductEntity {
       name: json['name'],
       description: json['description'],
       price: json['price'],
-      category: json['category'],
       imageUrl: json['imageUrl'],
     );
   }
@@ -40,7 +36,6 @@ class ProductModel extends ProductEntity {
       'name': name,
       'description': description,
       'price': price,
-      'category': category,
       'imageUrl': imageUrl,
     };
   }

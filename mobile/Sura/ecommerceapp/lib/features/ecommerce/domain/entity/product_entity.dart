@@ -3,10 +3,9 @@ import 'package:equatable/equatable.dart';
 import '../../data/model/product_model.dart';
 
 class ProductEntity extends Equatable {
-  final int id;
+  final String id;
   String name;
   String description;
-  String category;
   String imageUrl;
   double price;
 
@@ -14,13 +13,12 @@ class ProductEntity extends Equatable {
     required this.id,
     required this.name,
     required this.description,
-    required this.category,
     required this.imageUrl,
     required this.price,
   });
 
   @override
-  List<Object?> get props => [id, name, description, category, imageUrl, price];
+  List<Object?> get props => [id, name, description, imageUrl, price];
 
   ProductModel toModel() {
     return ProductModel(
@@ -28,7 +26,6 @@ class ProductEntity extends Equatable {
       name: name,
       description: description,
       price: price,
-      category: category,
       imageUrl: imageUrl,
     );
   }

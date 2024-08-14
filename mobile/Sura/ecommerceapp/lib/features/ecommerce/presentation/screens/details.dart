@@ -87,13 +87,7 @@ class _DetailsPageState extends State<DetailsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        widget.product.category,
-                        style: const TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
+      
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(

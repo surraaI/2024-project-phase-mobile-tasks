@@ -9,7 +9,7 @@ class GetProduct {
 
   GetProduct({required this.repository});
 
-  Future<Either<Failure, ProductEntity>> call(int productId) async {
+  Future<Either<Failure, ProductEntity>> call(String productId) async {
     return await repository.getProductById(productId);
   }
 }

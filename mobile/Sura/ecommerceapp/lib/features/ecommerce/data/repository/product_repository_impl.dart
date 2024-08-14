@@ -4,7 +4,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
-import '../../../../core/platform/network_info.dart';
+import '../../../../core/network/network_info.dart';
 import '../../domain/entity/product_entity.dart';
 import '../../domain/repository/product_repository.dart';
 import '../data_sources/product_local_data_source.dart';
@@ -38,7 +38,7 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<void> deleteProduct(int id) async {
+  Future<void> deleteProduct(String id) async {
     if (await networkInfo.isConnected) {
       try {
         await remoteDataSource.deleteProduct(id);
@@ -75,7 +75,7 @@ class ProductRepositoryImpl implements ProductRepository {
   }
 
   @override
-  Future<Either<Failure, ProductModel>> getProductById(int id) async {
+  Future<Either<Failure, ProductModel>> getProductById(String id) async {
     if (await networkInfo.isConnected) {
       try {
         final remoteProduct = await remoteDataSource.getProductById(id);

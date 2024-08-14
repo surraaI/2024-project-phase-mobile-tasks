@@ -10,7 +10,7 @@ class SearchPage extends StatefulWidget {
   final Function(ProductEntity) onDelete;
 
   const SearchPage({
-    super.key, 
+    super.key,
     required this.products,
     required this.onDelete,
   });
@@ -28,10 +28,15 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     List<ProductEntity> filteredProducts = widget.products.where((product) {
-      final isWithinPriceRange = product.price >= _minPrice && product.price <= _maxPrice;
-      final matchesCategory = _category.isEmpty || product.category.toLowerCase().contains(_category.toLowerCase());
-      final matchesSearchQuery = product.name.toLowerCase().contains(_searchQuery.toLowerCase()) || product.description.toLowerCase().contains(_searchQuery.toLowerCase());
-      return isWithinPriceRange && matchesCategory && matchesSearchQuery;
+      final isWithinPriceRange =
+          product.price >= _minPrice && product.price <= _maxPrice;
+
+      final matchesSearchQuery =
+          product.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
+              product.description
+                  .toLowerCase()
+                  .contains(_searchQuery.toLowerCase());
+      return isWithinPriceRange && matchesSearchQuery;
     }).toList();
 
     return Scaffold(
@@ -106,7 +111,8 @@ class _SearchPageState extends State<SearchPage> {
                                     const SizedBox(width: 10),
                                     Expanded(
                                       child: RangeSlider(
-                                        values: RangeValues(_minPrice, _maxPrice),
+                                        values:
+                                            RangeValues(_minPrice, _maxPrice),
                                         min: 0,
                                         max: 1000,
                                         divisions: 100,

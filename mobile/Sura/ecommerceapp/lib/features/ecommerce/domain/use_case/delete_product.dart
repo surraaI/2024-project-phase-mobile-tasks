@@ -5,7 +5,7 @@ class DeleteProduct {
 
   DeleteProduct({required this.repository});
 
-  Future<void> call(int id) async {
+  Future<void> call(String id) async {
     await repository.deleteProduct(id);
   }
 }

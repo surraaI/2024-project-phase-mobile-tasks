@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../data/model/product_model.dart';
 import '../../domain/entity/product_entity.dart';
 
 
@@ -39,7 +37,6 @@ class _UpdatePageState extends State<UpdatePage> {
     super.initState();
     if (widget.existingProduct != null) {
       _nameController.text = widget.existingProduct!.name;
-      _categoryController.text = widget.existingProduct!.category;
       _priceController.text = widget.existingProduct!.price.toString();
       _descriptionController.text = widget.existingProduct!.description;
       imagePath = widget.existingProduct!.imageUrl;
@@ -68,14 +65,12 @@ class _UpdatePageState extends State<UpdatePage> {
   }
 
   final String name = _nameController.text;
-  final String category = _categoryController.text;
   final double price = double.parse(_priceController.text);
   final String description = _descriptionController.text;
 
   if (widget.existingProduct != null) {
     // Update existing product
     widget.existingProduct!.name = name;
-    widget.existingProduct!.category = category;
     widget.existingProduct!.price = price;
     widget.existingProduct!.description = description;
     widget.existingProduct!.imageUrl = imagePath!;
@@ -88,7 +83,7 @@ class _UpdatePageState extends State<UpdatePage> {
       name: name,
       price: price,
       description: description,
-      category: category, id: 1,
+   id: '1',
     );
 
     widget.addProduct!(newProduct);
