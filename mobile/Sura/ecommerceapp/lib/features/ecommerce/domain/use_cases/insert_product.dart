@@ -2,10 +2,10 @@
 import '../entity/product_entity.dart';
 import '../repository/product_repository.dart';
 
-class InsertProduct {
+class CreateProduct {
   final ProductRepository repository;
 
-  InsertProduct({required this.repository});
+  CreateProduct({required this.repository});
 
   Future<void> call(ProductEntity product)  async {
     await repository.createProduct(product);
