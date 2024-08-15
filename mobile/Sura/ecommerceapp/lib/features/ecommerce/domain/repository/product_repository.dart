@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
-import '../../data/model/product_model.dart';
 import '../entity/product_entity.dart';
 
 abstract class ProductRepository {

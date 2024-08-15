@@ -31,10 +31,10 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       );
 
       if (response.statusCode != 201) {
-        throw ServerFailure('Failed to create product');
+        throw const ServerFailure('Failed to create product');
       }
     } catch (e) {
-      throw ConnectionFailure('Failed to connect to the server');
+      throw const ConnectionFailure('Failed to connect to the server');
     }
   }
 
@@ -47,10 +47,10 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       );
 
       if (response.statusCode != 204) {
-        throw ServerFailure('Failed to delete product');
+        throw const ServerFailure('Failed to delete product');
       }
     } catch (e) {
-      throw ConnectionFailure('Failed to connect to the server');
+      throw const ConnectionFailure('Failed to connect to the server');
     }
   }
 
@@ -68,10 +68,10 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
             .map((product) => ProductModel.fromJson(product))
             .toList();
       } else {
-        throw ServerFailure('Failed to load products');
+        throw const ServerFailure('Failed to load products');
       }
     } catch (e) {
-      throw ConnectionFailure('Failed to connect to the server');
+      throw const ConnectionFailure('Failed to connect to the server');
     }
   }
 
@@ -86,10 +86,10 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       if (response.statusCode == 200) {
         return ProductModel.fromJson(json.decode(response.body));
       } else {
-        throw ServerFailure('Failed to load product');
+        throw const ServerFailure('Failed to load product');
       }
     } catch (e) {
-      throw ConnectionFailure('Failed to connect to the server');
+      throw const ConnectionFailure('Failed to connect to the server');
     }
   }
 
@@ -105,10 +105,10 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       );
 
       if (response.statusCode != 200) {
-        throw ServerFailure('Failed to update product');
+        throw const ServerFailure('Failed to update product');
       }
     } catch (e) {
-      throw ConnectionFailure('Failed to connect to the server');
+      throw const ConnectionFailure('Failed to connect to the server');
     }
   }
 }

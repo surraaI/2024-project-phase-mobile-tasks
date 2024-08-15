@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import '../../data/model/product_model.dart';
 import '../../domain/entity/product_entity.dart';
+import '../custom_widgets/product_card.dart';
 import 'home_page.dart';
 
 class SearchPage extends StatefulWidget {

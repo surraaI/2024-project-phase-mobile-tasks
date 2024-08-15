@@ -19,25 +19,31 @@ void main() {
   });
 
   const CACHED_PRODUCTS_KEY = 'CACHED_PRODUCTS';
-  final tProductModel =
-      ProductModel.fromJson(json.decode(fixture('product.json')));
+  
+  final tProductModel = ProductModel.fromJson(json.decode(fixture('product.json')));
   final tProductId = tProductModel.id.toString();
   final tProductModels = [tProductModel, tProductModel];
   final expectedJsonString = json.encode(tProductModel.toJson());
 
+  String getCacheKey(String id) => '${CACHED_PRODUCTS_KEY}_$id';
+
   group('getProductById', () {
+    void arrangeSharedPreferencesWithProduct() {
+      when(mockSharedPreferences.getString(getCacheKey(tProductId)))
+          .thenReturn(fixture('product.json'));
+    }
+
     test(
       'should return Product from SharedPreferences when there is one in the cache',
       () async {
         // arrange
-        when(mockSharedPreferences
-                .getString('${CACHED_PRODUCTS_KEY}_$tProductId'))
-            .thenReturn(fixture('product.json'));
+        arrangeSharedPreferencesWithProduct();
+
         // act
         final result = await dataSource.getProductById(tProductId);
+
         // assert
-        verify(mockSharedPreferences
-            .getString('${CACHED_PRODUCTS_KEY}_$tProductId'));
+        verify(mockSharedPreferences.getString(getCacheKey(tProductId)));
         expect(result, equals(tProductModel));
       },
     );
@@ -46,11 +52,12 @@ void main() {
       'should throw an Exception when there is no cached data',
       () async {
         // arrange
-        when(mockSharedPreferences
-                .getString('${CACHED_PRODUCTS_KEY}_$tProductId'))
+        when(mockSharedPreferences.getString(getCacheKey(tProductId)))
             .thenReturn(null);
+
         // act
         final call = dataSource.getProductById;
+
         // assert
         expect(() => call(tProductId), throwsA(isA<Exception>()));
       },
@@ -63,32 +70,36 @@ void main() {
       () async {
         // arrange
         when(mockSharedPreferences.setString(
-                '${CACHED_PRODUCTS_KEY}_$tProductId', expectedJsonString))
-            .thenAnswer((_) async => true);
+          getCacheKey(tProductId), expectedJsonString))
+          .thenAnswer((_) async => true);
 
         // act
         await dataSource.cacheProduct(tProductModel);
 
         // assert
         verify(mockSharedPreferences.setString(
-            '${CACHED_PRODUCTS_KEY}_$tProductId', expectedJsonString));
+          getCacheKey(tProductId), expectedJsonString));
       },
     );
   });
 
   group('getAllProducts', () {
+    void arrangeSharedPreferencesWithProducts() {
+      when(mockSharedPreferences.getKeys()).thenReturn({
+        getCacheKey('1'),
+        getCacheKey('2'),
+      });
+      when(mockSharedPreferences.getString(getCacheKey('1')))
+          .thenReturn(fixture('product.json'));
+      when(mockSharedPreferences.getString(getCacheKey('2')))
+          .thenReturn(fixture('product.json'));
+    }
+
     test(
       'should return a list of ProductModels from SharedPreferences when there are cached products',
       () async {
         // arrange
-        when(mockSharedPreferences.getKeys()).thenReturn({
-          '${CACHED_PRODUCTS_KEY}_1',
-          '${CACHED_PRODUCTS_KEY}_2',
-        });
-        when(mockSharedPreferences.getString('${CACHED_PRODUCTS_KEY}_1'))
-            .thenReturn(fixture('product.json'));
-        when(mockSharedPreferences.getString('${CACHED_PRODUCTS_KEY}_2'))
-            .thenReturn(fixture('product.json'));
+        arrangeSharedPreferencesWithProducts();
 
         // act
         final result = await dataSource.getAllProducts();
@@ -113,5 +124,4 @@ void main() {
       },
     );
   });
-
 }

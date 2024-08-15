@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 
-import '../../data/model/product_model.dart';
 import '../../domain/entity/product_entity.dart';
 import 'update_page.dart';
 

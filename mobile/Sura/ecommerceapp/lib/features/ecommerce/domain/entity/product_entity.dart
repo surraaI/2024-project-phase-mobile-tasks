@@ -4,12 +4,12 @@ import '../../data/model/product_model.dart';
 
 class ProductEntity extends Equatable {
   final String id;
-  String name;
-  String description;
-  String imageUrl;
-  double price;
+  final String name;
+  final String description;
+  final String imageUrl;
+  final double price;
 
-  ProductEntity({
+  const ProductEntity({
     required this.id,
     required this.name,
     required this.description,
