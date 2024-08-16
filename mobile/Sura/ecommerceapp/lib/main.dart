@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'features/ecommerce/data/model/product_model.dart';
 import 'features/ecommerce/domain/entity/product_entity.dart';
 import 'features/ecommerce/presentation/screens/details.dart';
 import 'features/ecommerce/presentation/screens/home_page.dart';
 import 'features/ecommerce/presentation/screens/search_page.dart';
 import 'features/ecommerce/presentation/screens/update_page.dart';
+import 'injection_container.dart' as di;
 
-void main() {
+Future<void> main() async {
+  await di.init();
   runApp(const MyApp());
 }
 

@@ -26,7 +26,7 @@ import 'package:ecommerceapp/features/ecommerce/domain/use_cases/get_all_product
     as _i13;
 import 'package:ecommerceapp/features/ecommerce/domain/use_cases/get_product.dart'
     as _i16;
-import 'package:ecommerceapp/features/ecommerce/domain/use_cases/insert_product.dart'
+import 'package:ecommerceapp/features/ecommerce/domain/use_cases/create_product.dart'
     as _i17;
 import 'package:ecommerceapp/features/ecommerce/domain/use_cases/update_product.dart'
     as _i18;

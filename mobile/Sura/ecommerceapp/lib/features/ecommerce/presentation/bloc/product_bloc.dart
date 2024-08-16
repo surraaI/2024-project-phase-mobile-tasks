@@ -6,7 +6,7 @@ import '../../domain/entity/product_entity.dart';
 import '../../domain/use_cases/delete_product.dart';
 import '../../domain/use_cases/get_all_product.dart';
 import '../../domain/use_cases/get_product.dart';
-import '../../domain/use_cases/insert_product.dart';
+import '../../domain/use_cases/create_product.dart';
 import '../../domain/use_cases/update_product.dart';
 import 'product_event.dart';
 import 'product_state.dart';
