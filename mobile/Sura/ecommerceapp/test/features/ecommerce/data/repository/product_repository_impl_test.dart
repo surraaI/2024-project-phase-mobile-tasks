@@ -12,7 +12,7 @@ void main() {
   late MockProductLocalDataSource mockLocalDataSource;
   late MockProductRemoteDataSource mockRemoteDataSource;
   late MockNetworkInfo mockNetworkInfo;
-  final tProduct = ProductModel(
+  const tProduct = ProductModel(
     id: '1',
     name: 'Product 1',
     description: 'Product 1 description',
@@ -125,7 +125,7 @@ void main() {
       final result = await repository.getAllProducts();
       // assert
       verify(mockRemoteDataSource.getAllProducts());
-      expect(result, equals(Left(ServerFailure('server failure'))));
+      expect(result, equals(const Left(ServerFailure('server failure'))));
     });
 
     test(
@@ -165,7 +165,7 @@ void main() {
       final result = await repository.getAllProducts();
       // assert
       verify(mockLocalDataSource.getAllProducts());
-      expect(result, equals(Left(CacheFailure('cache failure'))));
+      expect(result, equals(const Left(CacheFailure('cache failure'))));
     });
   });
 

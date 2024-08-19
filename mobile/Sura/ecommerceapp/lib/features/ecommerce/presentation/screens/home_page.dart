@@ -1,9 +1,12 @@
-// ignore_for_file: library_private_types_in_public_api
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../../domain/entity/product_entity.dart';
+import '../bloc/product_bloc.dart';
+import '../bloc/product_event.dart';
+import '../bloc/product_state.dart';
 import '../custom_widgets/product_card.dart';
 import 'custom_page_route.dart';
-import 'details.dart';
 import 'search_page.dart';
 import 'update_page.dart';
 
@@ -15,27 +18,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<ProductEntity> products = [
-    const ProductEntity(
-      name: 'Derby Leathers',
-      price: 120.0,
-      description:
-          'A derby leather shoe is a classic and versatile footwear option characterized by its open lacing system...',
-      imageUrl: 'assets/Rectangle27.jpg',
-      id: '1',
-    ),
-  ];
-
-  void _addProduct(ProductEntity product) {
-    setState(() {
-      products.add(product);
-    });
+  @override
+  void initState() {
+    super.initState();
+    context.read<ProductBloc>().add(LoadAllProductsEvent());
   }
 
-  void _deleteProduct(ProductEntity product) {
-    setState(() {
-      products.remove(product);
-    });
+  void _navigateToUpdatePage(BuildContext context) {
+    Navigator.of(context).push(
+      CustomPageRoute(
+        child: const UpdatePage(),
+      ),
+    );
   }
 
   @override
@@ -96,9 +90,9 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Navigator.of(context).push(
                       CustomPageRoute(
-                        child: SearchPage(
-                          products: products,
-                          onDelete: _deleteProduct,
+                        child: BlocProvider.value(
+                          value: context.read<ProductBloc>(),
+                          child: const SearchPage(),
                         ),
                       ),
                     );
@@ -115,22 +109,34 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          ProductList(products: products, onDelete: _deleteProduct),
+          BlocBuilder<ProductBloc, ProductState>(
+            builder: (context, state) {
+              print(state); // Debugging state
+              if (state is LoadingState) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is LoadedAllProductState) {
+                print(state.products); // Check if products are loaded
+                return ProductList(
+                  products: state.products,
+                  onDelete: (product) {
+                    context
+                        .read<ProductBloc>()
+                        .add(DeleteProductEvent(product.id));
+                  },
+                );
+              } else if (state is ErrorState) {
+                return Center(child: Text(state.message));
+              } else {
+                return const Center(child: Text('No Products Available'));
+              }
+            },
+          )
         ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         shape: const CircleBorder(),
-        onPressed: () {
-          Navigator.of(context).push(
-            CustomPageRoute(
-              child: UpdatePage(
-                addProduct: _addProduct,
-                deleteProduct: _deleteProduct,
-              ),
-            ),
-          );
-        },
+        onPressed: () => _navigateToUpdatePage(context),
         child: const Icon(
           Icons.add,
           color: Colors.white,
@@ -159,11 +165,9 @@ class ProductList extends StatelessWidget {
         itemBuilder: (context, index) {
           return ProductCard(
             product: products[index],
-            onDelete: onDelete,
           );
         },
       ),
     );
   }
 }
-

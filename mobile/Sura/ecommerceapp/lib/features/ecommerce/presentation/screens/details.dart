@@ -1,17 +1,17 @@
 // ignore_for_file: library_private_types_in_public_api
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/entity/product_entity.dart';
+import '../bloc/product_bloc.dart';
+import '../bloc/product_event.dart';
 import 'update_page.dart';
 
 class DetailsPage extends StatefulWidget {
-  const DetailsPage({super.key, required this.product,  required this.onDelete});
-  
+  const DetailsPage({super.key, required this.product});
+
   final ProductEntity product;
-  final Function(ProductEntity) onDelete;
 
   @override
   _DetailsPageState createState() => _DetailsPageState();
@@ -19,12 +19,6 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage> {
   int? _selectedSize;
-
-  void _addProduct(ProductEntity product) {
-    if (kDebugMode) {
-      print('Product updated: ${product.name}');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +31,8 @@ class _DetailsPageState extends State<DetailsPage> {
             children: [
               Stack(
                 children: [
-                  Image.asset(
-                    widget.product.imageUrl ?? 'assets/shoe2.jpg',
+                  Image.network(
+                    widget.product.imageUrl,
                     height: 200,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -86,7 +80,6 @@ class _DetailsPageState extends State<DetailsPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-      
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
@@ -156,8 +149,11 @@ class _DetailsPageState extends State<DetailsPage> {
                       ),
                       child: ElevatedButton(
                         onPressed: () {
-                          widget.onDelete(widget.product);
-                          Navigator.pop(context); 
+                          // Trigger delete product event using Bloc
+                          context
+                              .read<ProductBloc>()
+                              .add(DeleteProductEvent(widget.product.id));
+                          Navigator.pop(context);
                         },
                         style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.red,
@@ -174,11 +170,11 @@ class _DetailsPageState extends State<DetailsPage> {
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => UpdatePage(
-                              existingProduct: widget.product,
-                              addProduct: _addProduct, 
-                              
-                              
+                            builder: (context) => BlocProvider.value(
+                              value: context.read<ProductBloc>(),
+                              child: UpdatePage(
+                                existingProduct: widget.product,
+                              ),
                             ),
                           ),
                         );

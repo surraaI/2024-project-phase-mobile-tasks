@@ -1,20 +1,14 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
-import '../../data/model/product_model.dart';
-import '../../domain/entity/product_entity.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/product_bloc.dart';
+import '../bloc/product_state.dart';
 import '../custom_widgets/product_card.dart';
-import 'home_page.dart';
 
 class SearchPage extends StatefulWidget {
-  final List<ProductEntity> products;
-  final Function(ProductEntity) onDelete;
-
-  const SearchPage({
-    super.key,
-    required this.products,
-    required this.onDelete,
-  });
+  const SearchPage({super.key});
 
   @override
   _SearchPageState createState() => _SearchPageState();
@@ -24,22 +18,9 @@ class _SearchPageState extends State<SearchPage> {
   String _searchQuery = '';
   double _minPrice = 0;
   double _maxPrice = 1000;
-  String _category = '';
 
   @override
   Widget build(BuildContext context) {
-    List<ProductEntity> filteredProducts = widget.products.where((product) {
-      final isWithinPriceRange =
-          product.price >= _minPrice && product.price <= _maxPrice;
-
-      final matchesSearchQuery =
-          product.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-              product.description
-                  .toLowerCase()
-                  .contains(_searchQuery.toLowerCase());
-      return isWithinPriceRange && matchesSearchQuery;
-    }).toList();
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -68,6 +49,7 @@ class _SearchPageState extends State<SearchPage> {
                     onChanged: (value) {
                       setState(() {
                         _searchQuery = value;
+                        // _filterProducts();
                       });
                     },
                   ),
@@ -100,9 +82,7 @@ class _SearchPageState extends State<SearchPage> {
                                     ),
                                   ),
                                   onChanged: (value) {
-                                    setState(() {
-                                      _category = value;
-                                    });
+                                   
                                   },
                                 ),
                                 const SizedBox(height: 16),
@@ -136,6 +116,7 @@ class _SearchPageState extends State<SearchPage> {
                                 ElevatedButton(
                                   onPressed: () {
                                     Navigator.pop(context);
+                                    // _filterProducts();
                                   },
                                   style: ElevatedButton.styleFrom(
                                     minimumSize: const Size.fromHeight(50),
@@ -160,13 +141,38 @@ class _SearchPageState extends State<SearchPage> {
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: ListView.builder(
-                itemCount: filteredProducts.length,
-                itemBuilder: (context, index) {
-                  return ProductCard(
-                    product: filteredProducts[index],
-                    onDelete: widget.onDelete,
-                  );
+              child: BlocBuilder<ProductBloc, ProductState>(
+                builder: (context, state) {
+                  if (state is LoadingState) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is LoadedAllProductState) {
+                    final filteredProducts = state.products.where((product) {
+                      final isWithinPriceRange = product.price >= _minPrice &&
+                          product.price <= _maxPrice;
+                      final matchesSearchQuery = product.name
+                              .toLowerCase()
+                              .contains(_searchQuery.toLowerCase()) ||
+                          product.description
+                              .toLowerCase()
+                              .contains(_searchQuery.toLowerCase());
+                      return isWithinPriceRange && matchesSearchQuery;
+                    }).toList();
+
+                    return ListView.builder(
+                      itemCount: filteredProducts.length,
+                      itemBuilder: (context, index) {
+                        return ProductCard(
+                          product: filteredProducts[index],
+                        );
+                      },
+                    );
+                  } else if (state is ErrorState) {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  } else {
+                    return const Center(child: Text('No products available'));
+                  }
                 },
               ),
             ),
@@ -175,4 +181,15 @@ class _SearchPageState extends State<SearchPage> {
       ),
     );
   }
+
+  // void _filterProducts() {
+  //   context.read<ProductBloc>().add(
+  //         FilterProductsEvent(
+  //           searchQuery: _searchQuery,
+  //           minPrice: _minPrice,
+  //           maxPrice: _maxPrice,
+  //           category: _category,
+  //         ),
+  //       );
+  // }
 }

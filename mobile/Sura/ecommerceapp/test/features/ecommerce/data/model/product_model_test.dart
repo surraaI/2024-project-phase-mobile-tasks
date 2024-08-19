@@ -7,11 +7,11 @@ import 'package:flutter_test/flutter_test.dart';
 import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
-  final testProductModel = ProductModel(
+  const testProductModel = ProductModel(
     id: '1',
     name: 'test',
     description: 'bla bla',
-    price: 123.0,
+    price: 123,
     imageUrl: 'assets/blabla.jpg',
   );
 

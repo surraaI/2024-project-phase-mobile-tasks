@@ -18,14 +18,14 @@ void main() {
     );
   });
 
-  const CACHED_PRODUCTS_KEY = 'CACHED_PRODUCTS';
+  const cachedProductsKey = 'CACHED_PRODUCTS';
   
   final tProductModel = ProductModel.fromJson(json.decode(fixture('product.json')));
   final tProductId = tProductModel.id.toString();
   final tProductModels = [tProductModel, tProductModel];
   final expectedJsonString = json.encode(tProductModel.toJson());
 
-  String getCacheKey(String id) => '${CACHED_PRODUCTS_KEY}_$id';
+  String getCacheKey(String id) => '${cachedProductsKey}_$id';
 
   group('getProductById', () {
     void arrangeSharedPreferencesWithProduct() {

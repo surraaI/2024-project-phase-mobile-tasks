@@ -14,12 +14,12 @@ class ProductLocalDataSourceImpl implements ProductLocalDataSource {
   
   ProductLocalDataSourceImpl({required this.sharedPreferences});
   
-  static const CACHED_PRODUCTS_KEY = 'CACHED_PRODUCTS';
+  static const cachedProductsKey = 'CACHED_PRODUCTS';
 
   @override
   Future<void> cacheProduct(ProductModel productCache) {
     final jsonString = json.encode(productCache.toJson());
-    return sharedPreferences.setString('${CACHED_PRODUCTS_KEY}_${productCache.id}', jsonString);
+    return sharedPreferences.setString('${cachedProductsKey}_${productCache.id}', jsonString);
   }
   
   @override
@@ -34,7 +34,7 @@ class ProductLocalDataSourceImpl implements ProductLocalDataSource {
   Future<List<ProductModel>> getAllProducts() async {
     final List<ProductModel> products = [];
     for (var key in sharedPreferences.getKeys()) {
-      if (key.contains(CACHED_PRODUCTS_KEY)) {
+      if (key.contains(cachedProductsKey)) {
         final jsonString = sharedPreferences.getString(key);
         if (jsonString != null) {
           products.add(ProductModel.fromJson(json.decode(jsonString)));
@@ -46,7 +46,7 @@ class ProductLocalDataSourceImpl implements ProductLocalDataSource {
   
   @override
   Future<ProductModel> getProductById(String id) {
-    final jsonString = sharedPreferences.getString('${CACHED_PRODUCTS_KEY}_$id');
+    final jsonString = sharedPreferences.getString('${cachedProductsKey}_$id');
     if (jsonString != null) {
       return Future.value(ProductModel.fromJson(json.decode(jsonString)));
     } else {

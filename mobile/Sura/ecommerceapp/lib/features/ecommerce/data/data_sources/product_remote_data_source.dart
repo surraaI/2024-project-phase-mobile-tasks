@@ -1,6 +1,8 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:http_parser/http_parser.dart';
+import 'package:mime/mime.dart';
 
 import '../../../../core/constants/constants.dart';
 import '../../../../core/error/failure.dart';
@@ -22,16 +24,36 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   @override
   Future<void> createProduct(ProductModel product) async {
     try {
-      final response = await client.post(
-        Uri.parse(Urls.baseUrl),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: json.encode(product.toJson()),
-      );
+      final uri = Uri.parse(Urls.baseUrl);
+      final request = http.MultipartRequest('POST', uri);
+
+      request.fields['name'] = product.name;
+      request.fields['description'] = product.description;
+      request.fields['price'] = product.price.toString();
+
+      if (product.imageUrl.isNotEmpty) {
+        final imageFile = File(product.imageUrl);
+
+        if (imageFile.existsSync()) {
+          final mimeType =
+              lookupMimeType(product.imageUrl) ?? 'application/octet-stream';
+          final fileType = mimeType.split('/');
+
+          request.files.add(await http.MultipartFile.fromPath(
+            'image',
+            product.imageUrl,
+            contentType: MediaType(fileType[0], fileType[1]),
+          ));
+        } else {
+          throw const ServerFailure('Image file does not exist');
+        }
+      }
+
+      final streamedResponse = await request.send();
+      final response = await http.Response.fromStream(streamedResponse);
 
       if (response.statusCode != 201) {
-        throw const ServerFailure('Failed to create product');
+        throw ServerFailure('Failed to create product: ${response.body}');
       }
     } catch (e) {
       throw const ConnectionFailure('Failed to connect to the server');
@@ -46,7 +68,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
         headers: {'Content-Type': 'application/json'},
       );
 
-      if (response.statusCode != 204) {
+      if (response.statusCode != 200) {
         throw const ServerFailure('Failed to delete product');
       }
     } catch (e) {
@@ -57,14 +79,16 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   @override
   Future<List<ProductModel>> getAllProducts() async {
     try {
+      //('Fetching all products from: ${Urls.baseUrl}');
       final response = await client.get(
         Uri.parse(Urls.baseUrl),
         headers: {'Content-Type': 'application/json'},
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> jsonResponse = json.decode(response.body);
-        return jsonResponse
+        final Map<String, dynamic> jsonResponse = json.decode(response.body);
+        final List<dynamic> productList = jsonResponse['data'];
+        return productList
             .map((product) => ProductModel.fromJson(product))
             .toList();
       } else {
@@ -95,14 +119,17 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
 
   @override
   Future<void> updateProduct(ProductModel product) async {
+    final productId = product.id;
+    final jsonBody = jsonEncode({
+      'name': product.name,
+      'description': product.description,
+      'price': product.price,
+    });
     try {
       final response = await client.put(
-        Uri.parse('${Urls.baseUrl}/${product.id}'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: json.encode(product.toJson()),
-      );
+          Uri.parse(Urls.currentProductById(productId)),
+          body: jsonBody,
+          headers: {'Content-Type': 'application/json'});
 
       if (response.statusCode != 200) {
         throw const ServerFailure('Failed to update product');

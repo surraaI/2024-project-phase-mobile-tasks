@@ -1,3 +1,4 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "cmake.sourceDirectory": "C:/Users/User/Desktop/GitHub/2024-project-phase-mobile-tasks/mobile/Sura/ecommerceapp/test/core/network/linux/flutter"
 }

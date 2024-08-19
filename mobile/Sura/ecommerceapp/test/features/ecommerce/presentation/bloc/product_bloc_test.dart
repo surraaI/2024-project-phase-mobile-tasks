@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:ecommerceapp/core/error/failure.dart';
-import 'package:ecommerceapp/features/ecommerce/data/repository/product_repository_impl.dart';
 import 'package:ecommerceapp/features/ecommerce/domain/entity/product_entity.dart';
 import 'package:ecommerceapp/features/ecommerce/presentation/bloc/product_bloc.dart';
 import 'package:ecommerceapp/features/ecommerce/presentation/bloc/product_event.dart';
@@ -51,10 +50,10 @@ void main() {
     test(
         'should emit [LoadingState, LoadedAllProductState] when data is gotten successfully',
         () async {
-      when(mockGetAllProducts()).thenAnswer((_) async => Right([]));
+      when(mockGetAllProducts()).thenAnswer((_) async => const Right([]));
       final expected = [
         LoadingState(),
-        LoadedAllProductState([]),
+        const LoadedAllProductState([]),
       ];
       expectLater(bloc.stream, emitsInOrder(expected));
       bloc.add(LoadAllProductsEvent());
@@ -63,10 +62,10 @@ void main() {
     test('should emit [LoadingState, ErrorState] when getting data fails',
         () async {
       when(mockGetAllProducts())
-          .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+          .thenAnswer((_) async => const Left(ServerFailure('Server Failure')));
       final expected = [
         LoadingState(),
-        ErrorState('Server Failure'),
+        const ErrorState('Server Failure'),
       ];
       expectLater(bloc.stream, emitsInOrder(expected));
       bloc.add(LoadAllProductsEvent());
@@ -78,25 +77,25 @@ void main() {
         'should emit [LoadingState, LoadedSingleProductState] when data is gotten successfully',
         () async {
       when(mockGetProductById(any))
-          .thenAnswer((_) async => Right(testProductEntity));
+          .thenAnswer((_) async => const Right(testProductEntity));
       final expected = [
         LoadingState(),
-        LoadedSingleProductState(testProductEntity),
+        const LoadedSingleProductState(testProductEntity),
       ];
       expectLater(bloc.stream, emitsInOrder(expected));
-      bloc.add(GetSingleProductEvent('1'));
+      bloc.add(const GetSingleProductEvent('1'));
     });
 
     test('should emit [LoadingState, ErrorState] when getting data fails',
         () async {
       when(mockGetProductById(any))
-          .thenAnswer((_) async => Left(ServerFailure('Server Failure')));
+          .thenAnswer((_) async => const Left(ServerFailure('Server Failure')));
       final expected = [
         LoadingState(),
-        ErrorState('Server Failure'),
+        const ErrorState('Server Failure'),
       ];
       expectLater(bloc.stream, emitsInOrder(expected));
-      bloc.add(GetSingleProductEvent('1'));
+      bloc.add(const GetSingleProductEvent('1'));
     });
   });
 
@@ -105,15 +104,15 @@ void main() {
         'should emit [LoadingState, LoadedAllProductState] when data is created successfully',
         () async {
       when(mockCreateProduct(any))
-          .thenAnswer((_) async => Right(testProductEntity));
+          .thenAnswer((_) async => const Right(testProductEntity));
       when(mockGetAllProducts())
-          .thenAnswer((_) async => Right(testProductEntityList));
+          .thenAnswer((_) async => const Right(testProductEntityList));
       final expected = [
         LoadingState(),
-        LoadedAllProductState(testProductEntityList),
+        const LoadedAllProductState(testProductEntityList),
       ];
       expectLater(bloc.stream, emitsInOrder(expected));
-      bloc.add(CreateProductEvent(testProductEntity));
+      bloc.add(const CreateProductEvent(testProductEntity));
     });
   });
   group('UpdateProductEvent', () {
@@ -121,15 +120,15 @@ void main() {
         'should emit [LoadingState, LoadedAllProductState] when data is updated successfully',
         () async {
       when(mockUpdateProduct(any))
-          .thenAnswer((_) async => Right(testProductEntity));
+          .thenAnswer((_) async => const Right(testProductEntity));
       when(mockGetAllProducts())
-          .thenAnswer((_) async => Right(testProductEntityList));
+          .thenAnswer((_) async => const Right(testProductEntityList));
       final expected = [
         LoadingState(),
-        LoadedAllProductState(testProductEntityList),
+        const LoadedAllProductState(testProductEntityList),
       ];
       expectLater(bloc.stream, emitsInOrder(expected));
-      bloc.add(UpdateProductEvent(testProductEntity));
+      bloc.add(const UpdateProductEvent(testProductEntity));
     });
   });
 
@@ -138,15 +137,15 @@ void main() {
         'should emit [LoadingState, LoadedAllProductState] when data is deleted successfully',
         () async {
       when(mockDeleteProduct(any))
-          .thenAnswer((_) async => Right(testProductEntity));
+          .thenAnswer((_) async => const Right(testProductEntity));
       when(mockGetAllProducts())
-          .thenAnswer((_) async => Right(testProductEntityList));
+          .thenAnswer((_) async => const Right(testProductEntityList));
       final expected = [
         LoadingState(),
-        LoadedAllProductState(testProductEntityList),
+        const LoadedAllProductState(testProductEntityList),
       ];
       expectLater(bloc.stream, emitsInOrder(expected));
-      bloc.add(DeleteProductEvent('1'));
+      bloc.add(const DeleteProductEvent('1'));
     });
   });
 }

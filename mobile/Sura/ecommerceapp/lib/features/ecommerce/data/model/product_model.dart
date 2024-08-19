@@ -1,12 +1,17 @@
 import '../../domain/entity/product_entity.dart';
 class ProductModel extends ProductEntity {
+  @override
   final String id;
+  @override
   final String name;
+  @override
   final String description;
+  @override
   final double price;
+  @override
   final String imageUrl;
 
-  ProductModel({
+  const ProductModel({
     required this.id,
     required this.name,
     required this.description,
@@ -25,7 +30,7 @@ class ProductModel extends ProductEntity {
       id: json['id'],
       name: json['name'],
       description: json['description'],
-      price: json['price'],
+      price: (json['price'] as num).toDouble(),
       imageUrl: json['imageUrl'],
     );
   }

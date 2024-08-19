@@ -2,24 +2,22 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import '../../domain/entity/product_entity.dart';
 
+import '../../domain/entity/product_entity.dart';
+import '../bloc/product_bloc.dart';
+import '../bloc/product_event.dart';
 
 class UpdatePage extends StatefulWidget {
-  final Function(ProductEntity)? addProduct;
-  final Function(ProductEntity)? deleteProduct; 
-  final ProductEntity? existingProduct;  
+  final ProductEntity? existingProduct;
 
   const UpdatePage({
-    this.addProduct, 
-    this.deleteProduct, 
-    this.existingProduct, 
-    super.key
+    this.existingProduct,
+    super.key,
   });
 
   @override
-  // ignore: library_private_types_in_public_api
   _UpdatePageState createState() => _UpdatePageState();
 }
 
@@ -53,48 +51,50 @@ class _UpdatePageState extends State<UpdatePage> {
     }
   }
 
-  void _onAddProduct() {
-  if (_nameController.text.isEmpty ||
-      _categoryController.text.isEmpty ||
-      _priceController.text.isEmpty ||
-      _descriptionController.text.isEmpty) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Please fill in all fields')),
-    );
-    return;
-  }
+  void _onAddOrUpdateProduct() {
+    if (_nameController.text.isEmpty ||
+        _categoryController.text.isEmpty ||
+        _priceController.text.isEmpty ||
+        _descriptionController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill in all fields')),
+      );
+      return;
+    }
 
-  final String name = _nameController.text;
-  final double price = double.parse(_priceController.text);
-  final String description = _descriptionController.text;
+    final String name = _nameController.text;
+    final double price = double.parse(_priceController.text);
+    final String description = _descriptionController.text;
 
-  if (widget.existingProduct != null) {
-    // Update existing product
-    widget.existingProduct!.name = name;
-    widget.existingProduct!.price = price;
-    widget.existingProduct!.description = description;
-    widget.existingProduct!.imageUrl = imagePath!;
+    if (widget.existingProduct != null) {
+      // Update existing product
+      final updatedProduct = widget.existingProduct!.copyWith(
+        name: name,
+        price: price,
+        description: description,
+        imageUrl: imagePath!,
+      );
+
+      context.read<ProductBloc>().add(UpdateProductEvent(updatedProduct));
+    } else {
+      // Create a new product
+      final newProduct = ProductEntity(
+        imageUrl: imagePath!,
+        name: name,
+        price: price,
+        description: description,
+        id: '',
+      );
+
+      context.read<ProductBloc>().add(CreateProductEvent(newProduct));
+    }
 
     Navigator.pop(context);
-  } else {
-    // Create a new product
-    final ProductEntity newProduct = ProductEntity(
-      imageUrl: imagePath!,
-      name: name,
-      price: price,
-      description: description,
-   id: '1',
-    );
-
-    widget.addProduct!(newProduct);
-    Navigator.pop(context);
   }
-}
-  
 
   void _onDeleteProduct() {
     if (widget.existingProduct != null) {
-      widget.deleteProduct!(widget.existingProduct!); 
+      context.read<ProductBloc>().add(DeleteProductEvent(widget.existingProduct!.id));
     }
     Navigator.pop(context);
   }
@@ -136,7 +136,7 @@ class _UpdatePageState extends State<UpdatePage> {
                             Text('Upload Image'),
                           ],
                         ))
-                      : kIsWeb
+                      : kIsWeb || imagePath!.startsWith('http')
                           ? Image.network(imagePath!, fit: BoxFit.cover)
                           : Image.file(File(imagePath!), fit: BoxFit.cover),
                 ),
@@ -192,12 +192,12 @@ class _UpdatePageState extends State<UpdatePage> {
                 child: SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: _onAddProduct,
+                    onPressed: _onAddOrUpdateProduct,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blue,
                       foregroundColor: Colors.white,
                     ),
-                    child: const Text('Add Product'),
+                    child: Text(widget.existingProduct != null ? 'Update Product' : 'Add Product'),
                   ),
                 ),
               ),
@@ -222,5 +222,4 @@ class _UpdatePageState extends State<UpdatePage> {
       ),
     );
   }
-}
 }

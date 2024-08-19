@@ -1,4 +1,3 @@
-// widgets/product_card.dart
 import 'package:flutter/material.dart';
 import '../../domain/entity/product_entity.dart';
 import '../screens/custom_page_route.dart';
@@ -6,11 +5,9 @@ import '../screens/details.dart';
 
 class ProductCard extends StatelessWidget {
   final ProductEntity product;
-  final Function(ProductEntity) onDelete;
 
   const ProductCard({
     required this.product,
-    required this.onDelete,
     super.key,
   });
 
@@ -22,7 +19,6 @@ class ProductCard extends StatelessWidget {
           CustomPageRoute(
             child: DetailsPage(
               product: product,
-              onDelete: onDelete,
             ),
           ),
         );
@@ -37,19 +33,12 @@ class ProductCard extends StatelessWidget {
                 topLeft: Radius.circular(4),
                 topRight: Radius.circular(4),
               ),
-              child: product.imageUrl != null
-                  ? Image.asset(
-                      product.imageUrl!,
+              child: Image.network(
+                      product.imageUrl,
                       height: 200,
                       width: double.infinity,
                       fit: BoxFit.cover,
                     )
-                  : Image.asset(
-                      'assets/shoe2.jpg',
-                      height: 200,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-                    ),
             ),
             const SizedBox(height: 12.0),
             Padding(

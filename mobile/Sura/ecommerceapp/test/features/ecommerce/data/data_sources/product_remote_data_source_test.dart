@@ -154,7 +154,7 @@ void main() {
       () async {
         // arrange
         when(mockHttpClient.delete(any, headers: anyNamed('headers')))
-            .thenAnswer((_) async => http.Response('Deleted', 204));
+            .thenAnswer((_) async => http.Response('Deleted', 200));
         // act
         await dataSource.deleteProduct(tProductId);
         // assert
