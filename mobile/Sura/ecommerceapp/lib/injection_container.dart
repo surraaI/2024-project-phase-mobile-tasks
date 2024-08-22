@@ -4,16 +4,16 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'core/network/network_info.dart';
-import 'features/ecommerce/data/data_sources/product_local_data_source.dart';
-import 'features/ecommerce/data/data_sources/product_remote_data_source.dart';
-import 'features/ecommerce/data/repository/product_repository_impl.dart';
-import 'features/ecommerce/domain/repository/product_repository.dart';
-import 'features/ecommerce/domain/use_cases/create_product.dart';
-import 'features/ecommerce/domain/use_cases/delete_product.dart';
-import 'features/ecommerce/domain/use_cases/get_all_product.dart';
-import 'features/ecommerce/domain/use_cases/get_product.dart';
-import 'features/ecommerce/domain/use_cases/update_product.dart';
-import 'features/ecommerce/presentation/bloc/product_bloc.dart';
+import 'features/product/data/data_sources/product_local_data_source.dart';
+import 'features/product/data/data_sources/product_remote_data_source.dart';
+import 'features/product/data/repository/product_repository_impl.dart';
+import 'features/product/domain/repository/product_repository.dart';
+import 'features/product/domain/use_cases/create_product.dart';
+import 'features/product/domain/use_cases/delete_product.dart';
+import 'features/product/domain/use_cases/get_all_product.dart';
+import 'features/product/domain/use_cases/get_product.dart';
+import 'features/product/domain/use_cases/update_product.dart';
+import 'features/product/presentation/bloc/product_bloc.dart';
 
 final sl = GetIt.instance;
 

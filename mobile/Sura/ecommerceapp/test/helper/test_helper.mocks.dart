@@ -4,37 +4,41 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i8;
-import 'dart:convert' as _i19;
-import 'dart:typed_data' as _i21;
+import 'dart:convert' as _i21;
+import 'dart:typed_data' as _i23;
 
 import 'package:dartz/dartz.dart' as _i5;
 import 'package:ecommerceapp/core/error/failure.dart' as _i14;
 import 'package:ecommerceapp/core/network/network_info.dart' as _i10;
-import 'package:ecommerceapp/features/ecommerce/data/data_sources/product_local_data_source.dart'
+import 'package:ecommerceapp/features/auth/domain/entities/user_entity.dart'
+    as _i20;
+import 'package:ecommerceapp/features/auth/domain/repository/auth_repository.dart'
+    as _i19;
+import 'package:ecommerceapp/features/product/data/data_sources/product_local_data_source.dart'
     as _i7;
-import 'package:ecommerceapp/features/ecommerce/data/data_sources/product_remote_data_source.dart'
+import 'package:ecommerceapp/features/product/data/data_sources/product_remote_data_source.dart'
     as _i9;
-import 'package:ecommerceapp/features/ecommerce/data/model/product_model.dart'
+import 'package:ecommerceapp/features/product/data/model/product_model.dart'
     as _i2;
-import 'package:ecommerceapp/features/ecommerce/domain/entity/product_entity.dart'
+import 'package:ecommerceapp/features/product/domain/entity/product_entity.dart'
     as _i15;
-import 'package:ecommerceapp/features/ecommerce/domain/repository/product_repository.dart'
+import 'package:ecommerceapp/features/product/domain/repository/product_repository.dart'
     as _i4;
-import 'package:ecommerceapp/features/ecommerce/domain/use_cases/delete_product.dart'
-    as _i12;
-import 'package:ecommerceapp/features/ecommerce/domain/use_cases/get_all_product.dart'
-    as _i13;
-import 'package:ecommerceapp/features/ecommerce/domain/use_cases/get_product.dart'
-    as _i16;
-import 'package:ecommerceapp/features/ecommerce/domain/use_cases/create_product.dart'
+import 'package:ecommerceapp/features/product/domain/use_cases/create_product.dart'
     as _i17;
-import 'package:ecommerceapp/features/ecommerce/domain/use_cases/update_product.dart'
+import 'package:ecommerceapp/features/product/domain/use_cases/delete_product.dart'
+    as _i12;
+import 'package:ecommerceapp/features/product/domain/use_cases/get_all_product.dart'
+    as _i13;
+import 'package:ecommerceapp/features/product/domain/use_cases/get_product.dart'
+    as _i16;
+import 'package:ecommerceapp/features/product/domain/use_cases/update_product.dart'
     as _i18;
 import 'package:http/http.dart' as _i6;
 import 'package:internet_connection_checker/internet_connection_checker.dart'
     as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:mockito/src/dummies.dart' as _i20;
+import 'package:mockito/src/dummies.dart' as _i22;
 import 'package:shared_preferences/shared_preferences.dart' as _i11;
 
 // ignore_for_file: type=lint
@@ -696,6 +700,101 @@ class MockUpdateProduct extends _i1.Mock implements _i18.UpdateProduct {
       ) as _i8.Future<void>);
 }
 
+/// A class which mocks [AuthRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAuthRepository extends _i1.Mock implements _i19.AuthRepository {
+  MockAuthRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i8.Future<_i5.Either<_i14.Failure, _i5.Unit>> login(
+    String? email,
+    String? password,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #login,
+          [
+            email,
+            password,
+          ],
+        ),
+        returnValue: _i8.Future<_i5.Either<_i14.Failure, _i5.Unit>>.value(
+            _FakeEither_4<_i14.Failure, _i5.Unit>(
+          this,
+          Invocation.method(
+            #login,
+            [
+              email,
+              password,
+            ],
+          ),
+        )),
+      ) as _i8.Future<_i5.Either<_i14.Failure, _i5.Unit>>);
+
+  @override
+  _i8.Future<_i5.Either<_i14.Failure, _i5.Unit>> register(
+    String? email,
+    String? password,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #register,
+          [
+            email,
+            password,
+          ],
+        ),
+        returnValue: _i8.Future<_i5.Either<_i14.Failure, _i5.Unit>>.value(
+            _FakeEither_4<_i14.Failure, _i5.Unit>(
+          this,
+          Invocation.method(
+            #register,
+            [
+              email,
+              password,
+            ],
+          ),
+        )),
+      ) as _i8.Future<_i5.Either<_i14.Failure, _i5.Unit>>);
+
+  @override
+  _i8.Future<_i5.Either<_i14.Failure, _i20.User>> getCurrentUser() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getCurrentUser,
+          [],
+        ),
+        returnValue: _i8.Future<_i5.Either<_i14.Failure, _i20.User>>.value(
+            _FakeEither_4<_i14.Failure, _i20.User>(
+          this,
+          Invocation.method(
+            #getCurrentUser,
+            [],
+          ),
+        )),
+      ) as _i8.Future<_i5.Either<_i14.Failure, _i20.User>>);
+
+  @override
+  _i8.Future<_i5.Either<_i14.Failure, _i5.Unit>> logout() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #logout,
+          [],
+        ),
+        returnValue: _i8.Future<_i5.Either<_i14.Failure, _i5.Unit>>.value(
+            _FakeEither_4<_i14.Failure, _i5.Unit>(
+          this,
+          Invocation.method(
+            #logout,
+            [],
+          ),
+        )),
+      ) as _i8.Future<_i5.Either<_i14.Failure, _i5.Unit>>);
+}
+
 /// A class which mocks [Client].
 ///
 /// See the documentation for Mockito's code generation for more information.
@@ -751,7 +850,7 @@ class MockHttpClient extends _i1.Mock implements _i6.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i19.Encoding? encoding,
+    _i21.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -782,7 +881,7 @@ class MockHttpClient extends _i1.Mock implements _i6.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i19.Encoding? encoding,
+    _i21.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -813,7 +912,7 @@ class MockHttpClient extends _i1.Mock implements _i6.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i19.Encoding? encoding,
+    _i21.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -844,7 +943,7 @@ class MockHttpClient extends _i1.Mock implements _i6.Client {
     Uri? url, {
     Map<String, String>? headers,
     Object? body,
-    _i19.Encoding? encoding,
+    _i21.Encoding? encoding,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -881,7 +980,7 @@ class MockHttpClient extends _i1.Mock implements _i6.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i8.Future<String>.value(_i20.dummyValue<String>(
+        returnValue: _i8.Future<String>.value(_i22.dummyValue<String>(
           this,
           Invocation.method(
             #read,
@@ -892,7 +991,7 @@ class MockHttpClient extends _i1.Mock implements _i6.Client {
       ) as _i8.Future<String>);
 
   @override
-  _i8.Future<_i21.Uint8List> readBytes(
+  _i8.Future<_i23.Uint8List> readBytes(
     Uri? url, {
     Map<String, String>? headers,
   }) =>
@@ -902,8 +1001,8 @@ class MockHttpClient extends _i1.Mock implements _i6.Client {
           [url],
           {#headers: headers},
         ),
-        returnValue: _i8.Future<_i21.Uint8List>.value(_i21.Uint8List(0)),
-      ) as _i8.Future<_i21.Uint8List>);
+        returnValue: _i8.Future<_i23.Uint8List>.value(_i23.Uint8List(0)),
+      ) as _i8.Future<_i23.Uint8List>);
 
   @override
   _i8.Future<_i6.StreamedResponse> send(_i6.BaseRequest? request) =>

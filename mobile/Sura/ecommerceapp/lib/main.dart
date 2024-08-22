@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'features/ecommerce/domain/entity/product_entity.dart';
-import 'features/ecommerce/presentation/bloc/product_bloc.dart';
-import 'features/ecommerce/presentation/bloc/product_event.dart';
-import 'features/ecommerce/presentation/screens/details.dart';
-import 'features/ecommerce/presentation/screens/home_page.dart';
-import 'features/ecommerce/presentation/screens/search_page.dart';
-import 'features/ecommerce/presentation/screens/update_page.dart';
+import 'features/product/domain/entity/product_entity.dart';
+import 'features/product/presentation/bloc/product_bloc.dart';
+import 'features/product/presentation/bloc/product_event.dart';
+import 'features/product/presentation/pages/details_page.dart';
+import 'features/product/presentation/pages/home_page.dart';
+import 'features/product/presentation/pages/search_page.dart';
+import 'features/product/presentation/pages/update_page.dart';
 import 'injection_container.dart' as di;
 
 Future<void> main() async {
